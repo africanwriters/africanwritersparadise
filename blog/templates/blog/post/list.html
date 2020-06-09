@@ -1,0 +1,106 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %} My Blog {% endblock %}
+
+{% block content %}
+
+<header class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+                
+            <a id="logo" class="pull-left" href="index.html" alt"{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }}{% endif %}"></a>
+    <div class="nav-collapse collapse pull-right">
+
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/admin">Login</a>
+            </li>
+            <li>
+                <a href="/blog">Blog</a>
+            </li>
+            <li>
+                <a href="/">Membership</a>
+            </li>
+        </ul>
+           
+    </div>
+    </div>
+    </div>
+</header>
+    <h1>Our Blog</h1>
+    
+    {% for post in posts %}
+    <h2>
+        <a href="{{ post.get_absolute_url }}">
+            {{ post.title }} 
+        </a>
+    </h2>
+    <br>
+    <p class="date">
+        Published {{ post.publish }} By {{ post.author }}
+    </p>
+    
+    <img src="{{ post.image.url }}" height="440" width="720">
+    {{ post.body|truncatewords:50|linebreaks }}
+    <a href=" {{ post.get_absolute_url }}">Read More</a> <br><br>
+    {% endfor %}
+    
+    <div class="row">
+        <div class="pagination">
+
+            {% if posts.has_previous %}
+                <a class="btn btn-primary m-2" href="?page=1">&laquo; First Page</a>
+                <a class="btn btn-primary m-2" href="?page={{ posts.previous_page_number }}">Previous Page</a>
+                {% endif %}
+
+                {% if posts.has_next %}
+                <a class="btn btn-primary m-2" href="?page={{ posts.next_page_number }}">Next Page</a>
+
+                <p class="current btn btn-primary m-2">
+                    Page {{ posts.number }} of {{ posts.paginator.num_posts }}.
+                </p>
+
+                <a class="btn btn-primary m-2" href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+
+        </div>
+
+    </div>
+    {% include "pagination.html" with page=page_obj %}
+{% endblock %}
+
+
+
+
+
+<!-- I AM  COMMENTING THIS OUT BECASE THEY ARE PART OF THE PORTFOLIO APP
+
+<h1>Hello Honest's Blog here...!</h1>
+
+<h2> Honest has posted {{ blogs.count }} blog{{ blogs.count|pluralize }} </h2>
+
+{% for blog in blogs %}
+
+<a href=" {% url 'blog:detail' blog.id %}"><h2> {{ blog.title }} </h2> </a>
+<h5> {{ blog.date|date:'d M Y' |upper }} </h5>
+<img src="{{ blog.image.url }}" height="720" width="1080">
+<p> {{ blog.description|striptags|truncatechars:100 }} </p>
+<a href=" {% url 'blog:detail' blog.id %}">Read More</a>
+
+{% if project.url %}
+ <br> <a href="{{ blog.url }}">My link</a>
+{% endif %}
+
+{% endfor %}
+
+{% include "pagination.html" with page=page_obj %}
+-->

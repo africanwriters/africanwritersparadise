@@ -1,0 +1,135 @@
+{% extends "blog/base.html" %}
+{% load static %}
+<br><br>
+{% block title %}{{ post.title }}{% endblock %}
+<br><br>
+{% block content %}
+<header class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+                
+            <a id="logo" class="pull-left" href="index.html" alt"{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }}{% endif %}"></a>
+    <div class="nav-collapse collapse pull-right">
+
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/admin">Login</a>
+            </li>
+            <li>
+                <a href="/blog">Blog</a>
+            </li>
+            <li>
+                <a href="/">Membership</a>
+            </li>
+        </ul>
+           
+    </div>
+    </div>
+    </div>
+</header>
+    <h1>{{ post.title }}</h1> 
+    <div class="nav-collapse collapse pull-right">            
+        <ul>
+            <li>
+                <a href="{% url "blog:post_share" post.id %}">Share Via Email </a>
+            </li>
+            <li>
+                <a href="https://www.WhatsApp.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><i class="icon-whatsapp">WhatsApp</i></a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><i class="icon-facebook"></i></a> 
+            </li>
+            <li>
+                <a href=" https://www.instagram.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><i class="icon-instagram"></i></a>
+            </li>
+            <li>
+                <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}"><i class="icon-twitter"></i></a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=&source={{ request.build_absolute_uri }}&title= {{ post.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }} "><i class="icon-linkedin"></i></a>
+            </li>
+            
+
+
+        </ul>
+           
+    </div>
+
+    <p class="date">
+         Published {{ post.publish }} By {{ post.author }}
+    </p>
+    <img src="{{ post.image.url }}" height="440" width="720">
+    {{ post.body|linebreaks }}
+   
+{% with comments.count as total_comments %}
+    <h2>
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+{% endwith %}
+
+{% for comment in comments %}
+    <div class="comment">
+        <p class="info">
+            Comment {{ forloop.counter }} By {{ comment.name }}
+            {{ comment.created }}
+        </p>
+        {{ comment.body|linebreaks }}
+    </div>
+    {% empty %}
+    <p>There are no comments yet.</p>
+    {% endfor %}
+
+{% if new_comment %}
+    <h2>Your comment has been added successifully.</h2>
+{% else %}
+    <h2>Add a new comment</h2>
+    <form action="." method="post">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Add comment"></p>
+    </form>
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- I AM  COMMENTING THIS OUT BECASE THEY ARE PART OF THE PORTFOLIO APP
+
+<h1>{{ blog.title }}</h1>
+
+<h4>--{{ blog.date|date:'F jS Y' }}--</h4>
+
+<img src="{{ blog.image.url }}" height="720" width="1080">
+
+<br><br><br>
+
+{{ blog.description|safe }}
+
+<a href="https://plus.google.com/share?url=http://your-domain{{ request.get_full_path|urlencode }}"></a>
+ <a href="http://www.linkedin.com/shareArticle?url=http://your-domain{{ request.get_full_path|urlencode }}&title=<your title>&summary=<your desc>&source=http://your-domain"></a>
+ <a href="http://www.facebook.com/sharer/sharer.php?u=http://http://localhost:8000/{{ request.get_full_path|urlencode }}"></a>
+-------->
+
+<a href="https://www.facebook.com/sharer/sharer.php?u=http://africaarisecoding.com/">Share on Facebook</a>
+
+<a href='https://plus.google.com/share?url=http://codingforentrepreneurs.com'>Share on Google+</a>
