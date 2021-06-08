@@ -17,7 +17,7 @@ gunicorn==20.0.4
 idna==2.9
 Mezzanine==4.3.1
 oauthlib==3.1.0
-Pillow==7.1.2
+Pillow==8.2.0
 psycopg2==2.8.5
 psycopg2-binary==2.8.4
 python-decouple==3.3
